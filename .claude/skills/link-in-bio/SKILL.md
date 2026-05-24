@@ -18,6 +18,18 @@ Esta skill produz, a partir de um briefing de cliente, uma **apresentação HTML
 7. **Animações coreografadas** com delays escalonados (rise 0.8s @ 3.7s, @ 3.95s, @ 4.2s…). Não tudo entrando junto.
 8. **Sempre incluir botão "Reproduzir"** sob cada iPhone — a cliente vai querer ver de novo.
 
+## Pensando em Next.js já na fase 1
+
+A direção aprovada vira um projeto Next.js depois (ver `nextjs-conversion.md` quando existir). Algumas escolhas no HTML hoje custam caro lá; siga estas regras para a conversão ser barata:
+
+1. **Animações em CSS puro, não em JS.** Use `@keyframes` + `animation-delay`, não `setTimeout`/`requestAnimationFrame`. Sobrevive ao hidration do React sem reescrita.
+2. **Replay via "remount", não DOM manipulation.** No HTML use o padrão `cloneNode + replaceChild` que já existe — em React vira `key={replayCount}` num componente, troca trivial.
+3. **Sem `document.querySelector`/`addEventListener` espalhados.** Centralize listeners num único `<script>` no fim do body. No Next.js viram `useEffect` num client component.
+4. **Classes BEM-friendly por cena** (`.scene-b`, `.scene-c`, `.scene-v`). Vira CSS Module ou `styled-jsx` 1-pra-1.
+5. **Nada de `<img src="https://...">` externo.** Use `assets/` relativa. Vira `next/image` com `import logo from '@/assets/logo.png'`.
+6. **Texto sempre como texto** (não dentro de SVG, não como background-image). Necessário para SEO e i18n no Next.js.
+7. **Estrutura semântica:** `<header>`, `<section>`, `<footer>`, `<h1>` único. Next.js Metadata API depende disso.
+
 ## Passo a passo (executar nesta ordem)
 
 ### 1. Briefing
