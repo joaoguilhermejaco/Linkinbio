@@ -242,45 +242,22 @@
   .iphone-statusbar .icons { display: flex; gap: 5px; align-items: center; color: var(--scene-text); }
   .iphone-statusbar .icons svg { width: 16px; height: 11px; }
 
-  /* ============ LH MONOGRAM (SVG placeholder) ============ */
-  /* TODO: substituir por <img src="assets/logo-mono.png"> quando o PNG transparente do monograma oficial estiver disponível.
-     Mantém este SVG como fallback de rascunho. Cor segue currentColor para herdar do contexto (gold/dark). */
-  .lh-mono {
+  /* ============ LH LOGO LOCKUP (assets/logo-lockup.png) ============ */
+  /* O lockup oficial contém monógrama LH + "LIVIA HOLANDA" + tagline.
+     Por isso as cenas não repetem nome/sub em texto — a logo já carrega. */
+  .lockup-img {
     display: block;
-    color: var(--scene-glow);
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    animation: lockupReveal 2.4s cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s forwards;
   }
-  .lh-mono svg { width: 100%; height: auto; display: block; }
-
-  /* ============ LH LOCKUP (SVG placeholder com nome) ============ */
-  .lh-lockup {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--scene-glow);
+  @keyframes lockupReveal {
+    0%   { opacity: 0; clip-path: inset(0 100% 0 0); }
+    15%  { opacity: 1; }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
   }
-  .lh-lockup .name {
-    font-family: var(--display);
-    font-size: 22px;
-    letter-spacing: 6px;
-    font-weight: 400;
-    color: var(--scene-text);
-    text-transform: uppercase;
-  }
-  .lh-lockup .sub {
-    font-family: var(--sans);
-    font-size: 8px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--scene-glow);
-    position: relative;
-    padding: 0 18px;
-  }
-  .lh-lockup .sub::before,
-  .lh-lockup .sub::after {
-    content: ''; position: absolute; top: 50%;
-    width: 16px; height: 1px;
-    background: var(--scene-glow);
-  }
-  .lh-lockup .sub::before { left: -10px; }
-  .lh-lockup .sub::after  { right: -10px; }
 
   /* ====================================================== */
   /* DIREÇÃO 01 — CINEMATIC HERO                              */
@@ -314,39 +291,28 @@
                 linear-gradient(180deg, rgba(43,13,20,0) 0%, rgba(43,13,20,0.4) 100%);
   }
 
-  /* Monograma LH animado */
-  .scene-c1 .c1-mono-wrap {
-    position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
-    width: 90px; height: 110px; z-index: 3;
-    color: var(--scene-glow);
-    animation: fadeIn 1s ease 0.2s both;
+  .scene-c1 .c1-lockup {
+    position: absolute; top: 76px; left: 50%; transform: translateX(-50%);
+    width: 260px; z-index: 3;
   }
-  .scene-c1 .c1-mono-wrap svg path,
-  .scene-c1 .c1-mono-wrap svg line,
-  .scene-c1 .c1-mono-wrap svg circle {
-    stroke: currentColor; stroke-width: 1.8; fill: none;
-    stroke-dasharray: 600; stroke-dashoffset: 600;
-    animation: drawLogo 2.4s cubic-bezier(0.65, 0.05, 0.36, 1) 0.4s forwards;
+  .scene-c1 .c1-light-sweep {
+    position: absolute; top: 60px; left: -70%;
+    width: 65%; height: 220px; z-index: 4;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(207, 163, 90, 0) 25%,
+      rgba(207, 163, 90, 0.32) 50%,
+      rgba(207, 163, 90, 0) 75%,
+      transparent 100%);
+    filter: blur(28px);
+    pointer-events: none;
+    animation: lightSweepWide 3.2s cubic-bezier(0.45, 0, 0.3, 1) 0.5s forwards;
   }
-
-  .scene-c1 .c1-name {
-    position: absolute; top: 215px; left: 0; right: 0; text-align: center;
-    font-family: var(--display); font-size: 20px; letter-spacing: 4px;
-    color: var(--scene-text); text-transform: uppercase; z-index: 3;
-    opacity: 0; animation: fadeIn 1.2s ease 2.6s forwards;
-  }
-  .scene-c1 .c1-sub {
-    position: absolute; top: 248px; left: 0; right: 0; text-align: center;
-    font-family: var(--sans);
-    font-size: 8px; letter-spacing: 5px; text-transform: uppercase;
-    color: var(--scene-glow); z-index: 3;
-    opacity: 0; animation: fadeIn 1.2s ease 2.9s forwards;
-  }
-  .scene-c1 .c1-line {
-    position: absolute; top: 282px; left: 50%; transform: translateX(-50%);
-    width: 0; height: 1px; z-index: 3;
-    background: linear-gradient(90deg, transparent, var(--scene-glow), transparent);
-    animation: lineGrow 1.4s ease 3.2s forwards;
+  @keyframes lightSweepWide {
+    0% { left: -70%; opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { left: 110%; opacity: 0; }
   }
 
   .scene-c1 .c1-chapters {
@@ -371,14 +337,14 @@
     transform: translateX(-100%);
     animation: shimmer 6s ease-in-out infinite;
   }
-  .scene-c1 .c1-chapter:nth-child(1) { animation: rise 0.8s ease 3.6s forwards; }
-  .scene-c1 .c1-chapter:nth-child(2) { animation: rise 0.8s ease 3.85s forwards; }
-  .scene-c1 .c1-chapter:nth-child(3) { animation: rise 0.8s ease 4.1s forwards; }
-  .scene-c1 .c1-chapter:nth-child(4) { animation: rise 0.8s ease 4.35s forwards; }
-  .scene-c1 .c1-chapter:nth-child(1)::after { animation-delay: 6s; }
-  .scene-c1 .c1-chapter:nth-child(2)::after { animation-delay: 6.4s; }
-  .scene-c1 .c1-chapter:nth-child(3)::after { animation-delay: 6.8s; }
-  .scene-c1 .c1-chapter:nth-child(4)::after { animation-delay: 7.2s; }
+  .scene-c1 .c1-chapter:nth-child(1) { animation: rise 0.8s ease 3.1s forwards; }
+  .scene-c1 .c1-chapter:nth-child(2) { animation: rise 0.8s ease 3.35s forwards; }
+  .scene-c1 .c1-chapter:nth-child(3) { animation: rise 0.8s ease 3.6s forwards; }
+  .scene-c1 .c1-chapter:nth-child(4) { animation: rise 0.8s ease 3.85s forwards; }
+  .scene-c1 .c1-chapter:nth-child(1)::after { animation-delay: 5.5s; }
+  .scene-c1 .c1-chapter:nth-child(2)::after { animation-delay: 5.9s; }
+  .scene-c1 .c1-chapter:nth-child(3)::after { animation-delay: 6.3s; }
+  .scene-c1 .c1-chapter:nth-child(4)::after { animation-delay: 6.7s; }
   .scene-c1 .ch-num { font-family: var(--display); font-style: italic; font-size: 11px; color: var(--scene-glow); width: 22px; }
   .scene-c1 .ch-title { flex: 1; font-family: var(--display); font-size: 14px; color: var(--scene-text); letter-spacing: 0.3px; }
   .scene-c1 .ch-arrow { color: var(--scene-glow); font-family: var(--display); font-size: 18px; }
@@ -387,8 +353,8 @@
     position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 3;
     font-family: var(--sans); font-size: 9px; letter-spacing: 2.5px;
     color: var(--scene-text-soft); text-transform: lowercase;
-    display: flex; align-items: center; gap: 6px;
-    opacity: 0; animation: fadeIn 1s ease 5s forwards;
+    display: flex; align-items: center; gap: 6px; text-decoration: none;
+    opacity: 0; animation: fadeIn 1s ease 4.5s forwards;
   }
   .scene-c1 .c1-ig svg { width: 11px; height: 11px; stroke: currentColor; fill: none; }
 
@@ -414,50 +380,20 @@
     pointer-events: none;
   }
 
-  .scene-c2 .c2-mono {
+  .scene-c2 .c2-lockup {
     position: relative; z-index: 2;
-    height: 80px; text-align: center; margin-bottom: 8px;
-    color: var(--c-gold);
-    opacity: 0; transform: scale(0.96);
-    animation: c2MonoIn 1.6s cubic-bezier(0.65,0,0.35,1) 0.3s forwards;
+    width: 240px; margin: 0 auto 22px;
   }
-  .scene-c2.bg-bege .c2-mono { color: var(--c-vinho-deep); }
-  .scene-c2 .c2-mono svg { height: 100%; width: auto; display: inline-block; }
-  @keyframes c2MonoIn {
-    0% { opacity: 0; transform: scale(0.96) translateY(-6px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .scene-c2 .c2-name {
-    text-align: center; position: relative; z-index: 2;
-    font-family: var(--display);
-    font-size: 18px; letter-spacing: 5px;
-    font-weight: 400;
-    color: var(--c-bege-light);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.2s forwards;
-  }
-  .scene-c2.bg-bege .c2-name { color: var(--c-vinho-deep); }
-
-  .scene-c2 .c2-sub {
-    text-align: center; position: relative; z-index: 2;
-    font-family: var(--sans);
-    font-size: 8px; letter-spacing: 3.5px; text-transform: uppercase;
-    color: var(--c-gold);
-    margin-bottom: 18px;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.4s forwards;
-  }
+  /* No modo bege, o lockup ouro precisa de filtro escuro pra ler bem */
+  .scene-c2.bg-bege .c2-lockup .lockup-img { filter: brightness(0.7) saturate(1.1); }
 
   .scene-c2 .c2-divider {
     position: relative; z-index: 2;
     width: 60%; height: 1px;
     background: linear-gradient(90deg, transparent, var(--c-gold), transparent);
-    margin: 0 auto 28px;
+    margin: 0 auto 22px;
     opacity: 0;
-    animation: fadeIn 1s ease 1.7s forwards;
+    animation: fadeIn 1s ease 2.0s forwards;
   }
 
   .scene-c2 .c2-trio {
@@ -473,9 +409,9 @@
     transform: translateY(14px);
     padding: 0 2px;
   }
-  .scene-c2 .c2-trio-item:nth-child(1) { animation: rise 0.9s ease 2.0s forwards; }
-  .scene-c2 .c2-trio-item:nth-child(2) { animation: rise 0.9s ease 2.5s forwards; }
-  .scene-c2 .c2-trio-item:nth-child(3) { animation: rise 0.9s ease 3.0s forwards; }
+  .scene-c2 .c2-trio-item:nth-child(1) { animation: rise 0.9s ease 2.6s forwards; }
+  .scene-c2 .c2-trio-item:nth-child(2) { animation: rise 0.9s ease 3.0s forwards; }
+  .scene-c2 .c2-trio-item:nth-child(3) { animation: rise 0.9s ease 3.4s forwards; }
   .scene-c2 .c2-trio-item .ti-icon {
     width: 30px; height: 30px;
     margin: 0 auto 10px;
@@ -503,7 +439,7 @@
     background: var(--c-gold);
     opacity: 0;
     margin: 0 auto 18px;
-    animation: fadeIn 1s ease 3.4s forwards;
+    animation: fadeIn 1s ease 3.9s forwards;
   }
 
   .scene-c2 .c2-links {
@@ -524,10 +460,10 @@
     background: rgba(43, 13, 20, 0.06);
     border-color: rgba(43, 13, 20, 0.18);
   }
-  .scene-c2 .c2-link:nth-child(1) { animation: rise 0.6s ease 3.7s forwards; }
-  .scene-c2 .c2-link:nth-child(2) { animation: rise 0.6s ease 3.85s forwards; }
-  .scene-c2 .c2-link:nth-child(3) { animation: rise 0.6s ease 4.0s forwards; }
-  .scene-c2 .c2-link:nth-child(4) { animation: rise 0.6s ease 4.15s forwards; }
+  .scene-c2 .c2-link:nth-child(1) { animation: rise 0.6s ease 4.2s forwards; }
+  .scene-c2 .c2-link:nth-child(2) { animation: rise 0.6s ease 4.35s forwards; }
+  .scene-c2 .c2-link:nth-child(3) { animation: rise 0.6s ease 4.5s forwards; }
+  .scene-c2 .c2-link:nth-child(4) { animation: rise 0.6s ease 4.65s forwards; }
   .scene-c2 .c2-link .ic { width: 20px; height: 20px; color: var(--c-gold); flex-shrink: 0; }
   .scene-c2 .c2-link .ic svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
   .scene-c2 .c2-link .tx {
@@ -541,8 +477,8 @@
     position: relative; z-index: 2;
     text-align: center; margin-top: 14px;
     font-family: var(--sans); font-size: 9px; letter-spacing: 2.5px;
-    color: var(--c-bege-mid);
-    opacity: 0; animation: fadeIn 1s ease 4.6s forwards;
+    color: var(--c-bege-mid); text-decoration: none;
+    opacity: 0; animation: fadeIn 1s ease 5.1s forwards;
   }
   .scene-c2.bg-bege .c2-ig { color: var(--c-vinho-mid); }
 
@@ -568,23 +504,12 @@
   }
   @keyframes vContentIn { to { opacity: 1; } }
 
-  .scene-c3-veil .v-mono {
-    height: 80px; text-align: center; margin-bottom: 6px;
-    color: var(--c-gold);
+  .scene-c3-veil .v-lockup {
+    width: 230px; margin: 0 auto 16px;
   }
-  .scene-c3-veil .v-mono svg { height: 100%; width: auto; display: inline-block; }
-
-  .scene-c3-veil .v-name {
-    text-align: center;
-    font-family: var(--display); font-size: 18px; letter-spacing: 4px;
-    color: var(--c-bege-light); text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .scene-c3-veil .v-sub {
-    text-align: center;
-    font-family: var(--sans); font-size: 8px; letter-spacing: 3.5px;
-    text-transform: uppercase; color: var(--c-gold);
-    margin-bottom: 12px;
+  .scene-c3-veil .v-lockup .lockup-img {
+    /* Sem clip-path reveal — o véu já é o reveal */
+    opacity: 1; clip-path: none; animation: none;
   }
   .scene-c3-veil .v-divider {
     width: 0; height: 1px;
@@ -694,37 +619,28 @@
     padding: 80px 28px 24px;
     display: flex; flex-direction: column;
   }
-  .scene-c3-type .t-mono {
-    height: 60px; text-align: center; margin-bottom: 18px;
-    color: var(--c-gold);
-    opacity: 0; animation: fadeIn 0.8s ease 0.3s forwards;
+  .scene-c3-type .t-lockup {
+    width: 210px; margin: 0 auto 18px;
   }
-  .scene-c3-type .t-mono svg { height: 100%; width: auto; display: inline-block; }
+  /* Override: reveal step-by-step simulando máquina escrevendo */
+  .scene-c3-type .t-lockup .lockup-img {
+    animation: lockupTypewrite 2.6s steps(28, end) 0.4s forwards;
+  }
+  @keyframes lockupTypewrite {
+    0%   { opacity: 1; clip-path: inset(0 100% 0 0); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0); }
+  }
 
-  .scene-c3-type .t-name-wrap {
-    text-align: center; margin-bottom: 8px;
-    overflow: hidden;
-    height: 28px;
+  .scene-c3-type .t-cursor {
+    display: block;
+    width: 2px; height: 14px;
+    background: var(--c-gold);
+    margin: 0 auto 14px;
+    opacity: 0;
+    animation: cursorAppear 0.1s ease 3.1s forwards, blinkCursor 0.7s step-end infinite 3.2s;
   }
-  .scene-c3-type .t-name {
-    display: inline-block;
-    font-family: var(--display); font-size: 20px; letter-spacing: 4px;
-    color: var(--c-bege-light); text-transform: uppercase;
-    overflow: hidden; white-space: nowrap;
-    width: 0; vertical-align: bottom;
-    border-right: 2px solid var(--c-gold);
-    animation: typeName 1.6s steps(14, end) 1.0s forwards, blinkCaret 0.7s step-end 7;
-  }
-  @keyframes typeName { to { width: 14ch; } }
-  @keyframes blinkCaret { 50% { border-color: transparent; } }
-
-  .scene-c3-type .t-sub {
-    text-align: center;
-    font-family: var(--sans); font-size: 9px; letter-spacing: 4px;
-    text-transform: uppercase; color: var(--c-gold);
-    margin-bottom: 22px;
-    opacity: 0; animation: fadeIn 1s ease 3.0s forwards;
-  }
+  @keyframes cursorAppear { to { opacity: 1; } }
+  @keyframes blinkCursor { 50% { opacity: 0; } }
 
   .scene-c3-type .t-tagline {
     text-align: center;
@@ -733,7 +649,7 @@
     line-height: 1.5;
     margin-bottom: 22px;
     padding: 0 8px;
-    opacity: 0; animation: fadeIn 1.2s ease 3.4s forwards;
+    opacity: 0; animation: fadeIn 1.2s ease 3.3s forwards;
   }
 
   .scene-c3-type .t-list {
@@ -748,10 +664,10 @@
     cursor: pointer;
     opacity: 0; transform: translateX(-10px);
   }
-  .scene-c3-type .t-item:nth-child(1) { animation: slideIn 0.6s ease 4.0s forwards; }
-  .scene-c3-type .t-item:nth-child(2) { animation: slideIn 0.6s ease 4.2s forwards; }
-  .scene-c3-type .t-item:nth-child(3) { animation: slideIn 0.6s ease 4.4s forwards; }
-  .scene-c3-type .t-item:nth-child(4) { animation: slideIn 0.6s ease 4.6s forwards; }
+  .scene-c3-type .t-item:nth-child(1) { animation: slideIn 0.6s ease 3.8s forwards; }
+  .scene-c3-type .t-item:nth-child(2) { animation: slideIn 0.6s ease 4.0s forwards; }
+  .scene-c3-type .t-item:nth-child(3) { animation: slideIn 0.6s ease 4.2s forwards; }
+  .scene-c3-type .t-item:nth-child(4) { animation: slideIn 0.6s ease 4.4s forwards; }
   @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
   .scene-c3-type .t-num {
     font-family: var(--display); font-style: italic;
@@ -771,8 +687,8 @@
   .scene-c3-type .t-ig {
     text-align: center; margin-top: auto; padding-top: 18px;
     font-family: var(--sans); font-size: 9px; letter-spacing: 2.5px;
-    color: var(--c-bege-mid);
-    opacity: 0; animation: fadeIn 1s ease 5.2s forwards;
+    color: var(--c-bege-mid); text-decoration: none;
+    opacity: 0; animation: fadeIn 1s ease 5.0s forwards;
   }
 
   /* ---------- 03C · STACK CARDS ---------- */
@@ -785,27 +701,8 @@
     padding: 76px 26px 24px;
     display: flex; flex-direction: column;
   }
-  .scene-c3-stack .s-mono {
-    height: 75px; text-align: center; margin-bottom: 6px;
-    color: var(--c-gold);
-    opacity: 0; transform: scale(0.94);
-    animation: c2MonoIn 1.4s cubic-bezier(0.65,0,0.35,1) 0.2s forwards;
-  }
-  .scene-c3-stack .s-mono svg { height: 100%; width: auto; display: inline-block; }
-
-  .scene-c3-stack .s-name {
-    text-align: center;
-    font-family: var(--display); font-size: 17px; letter-spacing: 5px;
-    color: var(--c-bege-light); text-transform: uppercase;
-    margin-bottom: 4px;
-    opacity: 0; animation: fadeIn 1s ease 1.0s forwards;
-  }
-  .scene-c3-stack .s-sub {
-    text-align: center;
-    font-family: var(--sans); font-size: 8px; letter-spacing: 3.5px;
-    text-transform: uppercase; color: var(--c-gold);
-    margin-bottom: 22px;
-    opacity: 0; animation: fadeIn 1s ease 1.2s forwards;
+  .scene-c3-stack .s-lockup {
+    width: 220px; margin: 0 auto 26px;
   }
 
   .scene-c3-stack .s-deck {
@@ -831,10 +728,10 @@
   .scene-c3-stack .s-card.featured .s-tt,
   .scene-c3-stack .s-card.featured .s-ic,
   .scene-c3-stack .s-card.featured .s-ar { color: var(--c-vinho-black); }
-  .scene-c3-stack .s-card:nth-child(1) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.6s forwards; }
-  .scene-c3-stack .s-card:nth-child(2) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.85s forwards; }
-  .scene-c3-stack .s-card:nth-child(3) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 2.10s forwards; }
-  .scene-c3-stack .s-card:nth-child(4) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 2.35s forwards; }
+  .scene-c3-stack .s-card:nth-child(1) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 3.0s forwards; }
+  .scene-c3-stack .s-card:nth-child(2) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 3.25s forwards; }
+  .scene-c3-stack .s-card:nth-child(3) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 3.5s forwards; }
+  .scene-c3-stack .s-card:nth-child(4) { animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 3.75s forwards; }
   @keyframes cardIn { to { opacity: 1; transform: rotateX(0) translateY(0); } }
 
   .scene-c3-stack .s-ic { width: 22px; height: 22px; color: var(--c-gold); flex-shrink: 0; }
@@ -848,8 +745,8 @@
   .scene-c3-stack .s-ig {
     text-align: center; margin-top: auto; padding-top: 16px;
     font-family: var(--sans); font-size: 9px; letter-spacing: 2.5px;
-    color: var(--c-bege-mid);
-    opacity: 0; animation: fadeIn 1s ease 3.0s forwards;
+    color: var(--c-bege-mid); text-decoration: none;
+    opacity: 0; animation: fadeIn 1s ease 4.2s forwards;
   }
 
   /* Toggle entre as 3 sub-cenas: somente uma visível por vez */
@@ -1105,22 +1002,10 @@
           <div class="photo-bg"></div>
           <div class="vignette"></div>
 
-          <!-- LH MONOGRAM (SVG placeholder — trocar por <img src="assets/logo-mono.png"/> quando enviar) -->
-          <div class="c1-mono-wrap lh-mono">
-            <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-              <path d="M 18 20 L 18 100 L 60 100" />
-              <path d="M 65 20 L 65 100 M 90 20 L 90 100 M 65 60 L 90 60" />
-              <line x1="50" y1="45" x2="50" y2="85"/>
-              <line x1="40" y1="52" x2="60" y2="52"/>
-              <path d="M 38 52 Q 38 62, 42 62 Q 46 62, 46 52" />
-              <path d="M 54 52 Q 54 62, 58 62 Q 62 62, 62 52" />
-              <circle cx="50" cy="42" r="1.5" fill="currentColor"/>
-            </svg>
+          <div class="c1-lockup">
+            <img class="lockup-img" src="assets/logo-lockup.png" alt="Livia Holanda · Advocacia e Consultoria Jurídica" />
           </div>
-
-          <div class="c1-name">Livia Holanda</div>
-          <div class="c1-sub">Advocacia e Consultoria Jurídica</div>
-          <div class="c1-line"></div>
+          <div class="c1-light-sweep"></div>
 
           <div class="c1-chapters">
             <div class="c1-chapter" data-action="whatsapp"><span class="ch-num">I.</span><span class="ch-title" data-voice-set='{"institucional":"Conversar pelo WhatsApp","hibrido":"Falar agora pelo WhatsApp"}'>Conversar pelo WhatsApp</span><span class="ch-arrow">→</span></div>
@@ -1230,19 +1115,9 @@
         </div>
 
         <div class="scene-c2">
-          <div class="c2-mono lh-mono">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M 18 18 L 18 82 L 56 82"/>
-              <path d="M 60 18 L 60 82 M 86 18 L 86 82 M 60 50 L 86 50"/>
-              <line x1="48" y1="36" x2="48" y2="74"/>
-              <line x1="40" y1="42" x2="56" y2="42"/>
-              <path d="M 38 42 Q 38 50, 42 50 Q 46 50, 46 42"/>
-              <path d="M 50 42 Q 50 50, 54 50 Q 58 50, 58 42"/>
-              <circle cx="48" cy="34" r="1.4" fill="currentColor"/>
-            </svg>
+          <div class="c2-lockup">
+            <img class="lockup-img" src="assets/logo-lockup.png" alt="Livia Holanda · Advocacia e Consultoria Jurídica" />
           </div>
-          <div class="c2-name">Livia Holanda</div>
-          <div class="c2-sub">Advocacia &amp; Consultoria Jurídica</div>
 
           <div class="c2-divider"></div>
 
@@ -1363,19 +1238,9 @@
         <!-- ---- 03A: VÉU ---- -->
         <div class="scene-c3-veil">
           <div class="v-content">
-            <div class="v-mono lh-mono">
-              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M 18 18 L 18 82 L 56 82"/>
-                <path d="M 60 18 L 60 82 M 86 18 L 86 82 M 60 50 L 86 50"/>
-                <line x1="48" y1="36" x2="48" y2="74"/>
-                <line x1="40" y1="42" x2="56" y2="42"/>
-                <path d="M 38 42 Q 38 50, 42 50 Q 46 50, 46 42"/>
-                <path d="M 50 42 Q 50 50, 54 50 Q 58 50, 58 42"/>
-                <circle cx="48" cy="34" r="1.4" fill="currentColor"/>
-              </svg>
+            <div class="v-lockup">
+              <img class="lockup-img" src="assets/logo-lockup.png" alt="Livia Holanda · Advocacia e Consultoria Jurídica" />
             </div>
-            <div class="v-name">Livia Holanda</div>
-            <div class="v-sub">Advocacia &amp; Consultoria</div>
             <div class="v-divider"></div>
             <div class="v-tagline" data-voice-show="institucional">Excelência jurídica com atenção individualizada</div>
             <div class="v-tagline" data-voice-show="hibrido" style="display:none">Compromisso, estratégia e excelência</div>
@@ -1404,19 +1269,10 @@
 
         <!-- ---- 03B: TYPEWRITER ---- -->
         <div class="scene-c3-type">
-          <div class="t-mono lh-mono">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M 18 18 L 18 82 L 56 82"/>
-              <path d="M 60 18 L 60 82 M 86 18 L 86 82 M 60 50 L 86 50"/>
-              <line x1="48" y1="36" x2="48" y2="74"/>
-              <line x1="40" y1="42" x2="56" y2="42"/>
-              <path d="M 38 42 Q 38 50, 42 50 Q 46 50, 46 42"/>
-              <path d="M 50 42 Q 50 50, 54 50 Q 58 50, 58 42"/>
-              <circle cx="48" cy="34" r="1.4" fill="currentColor"/>
-            </svg>
+          <div class="t-lockup">
+            <img class="lockup-img" src="assets/logo-lockup.png" alt="Livia Holanda · Advocacia e Consultoria Jurídica" />
           </div>
-          <div class="t-name-wrap"><span class="t-name">LIVIA HOLANDA</span></div>
-          <div class="t-sub">Advocacia &amp; Consultoria</div>
+          <div class="t-cursor"></div>
           <div class="t-tagline" data-voice-show="institucional">Atuação consolidada em Família, Civil, Criminal e Previdenciário.</div>
           <div class="t-tagline" data-voice-show="hibrido" style="display:none">Compromisso, estratégia e excelência em defesa dos seus direitos.</div>
 
@@ -1442,19 +1298,9 @@
 
         <!-- ---- 03C: STACK CARDS ---- -->
         <div class="scene-c3-stack">
-          <div class="s-mono lh-mono">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M 18 18 L 18 82 L 56 82"/>
-              <path d="M 60 18 L 60 82 M 86 18 L 86 82 M 60 50 L 86 50"/>
-              <line x1="48" y1="36" x2="48" y2="74"/>
-              <line x1="40" y1="42" x2="56" y2="42"/>
-              <path d="M 38 42 Q 38 50, 42 50 Q 46 50, 46 42"/>
-              <path d="M 50 42 Q 50 50, 54 50 Q 58 50, 58 42"/>
-              <circle cx="48" cy="34" r="1.4" fill="currentColor"/>
-            </svg>
+          <div class="s-lockup">
+            <img class="lockup-img" src="assets/logo-lockup.png" alt="Livia Holanda · Advocacia e Consultoria Jurídica" />
           </div>
-          <div class="s-name">Livia Holanda</div>
-          <div class="s-sub">Advocacia &amp; Consultoria</div>
 
           <div class="s-deck">
             <div class="s-card featured" data-action="whatsapp">
