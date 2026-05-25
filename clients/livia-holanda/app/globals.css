@@ -16,6 +16,10 @@
 /* ===================== RESET ===================== */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+/* html ganha cor pra cobrir overscroll/safe areas (iOS, Android) com o vinho do site */
+html {
+  background: var(--c-vinho-soft);
+}
 body {
   font-family: var(--sans);
   background: var(--c-vinho-soft);
@@ -65,19 +69,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     background: none;
   }
 }
-
-/* ===================== CORNERS (art-deco) ===================== */
-.corner {
-  position: absolute;
-  width: 42px; height: 42px;
-  border: 1px solid rgba(207,163,90,0.5);
-  z-index: 2;
-  pointer-events: none;
-}
-.corner.tl { top: 46px; left: 16px; border-right: none; border-bottom: none; }
-.corner.tr { top: 46px; right: 16px; border-left: none; border-bottom: none; }
-.corner.bl { bottom: 16px; left: 16px; border-right: none; border-top: none; }
-.corner.br { bottom: 16px; right: 16px; border-left: none; border-top: none; }
 
 /* ============ M1: LOCKUP ============ */
 .lockup {
