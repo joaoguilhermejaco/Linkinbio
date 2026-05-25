@@ -18,6 +18,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://livia-holanda-joaoguilhermejacos-projects.vercel.app'),
   title: 'Lívia Holanda · Advocacia e Assessoria Jurídica',
   description:
     'Advocacia em Direito de Família, Civil, Criminal e Previdenciário. Atendimento humanizado em Tabuleiro do Norte — CE.',
