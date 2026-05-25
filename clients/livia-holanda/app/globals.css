@@ -51,11 +51,18 @@ ul { list-style: none; padding: 0; margin: 0; }
 .page > * { position: relative; z-index: 2; }
 
 @media (min-width: 481px) {
+  /* Desktop: body usa o MESMO gradient que .page tem no mobile, esticado.
+     .page fica transparent e sem vinheta — uma camada só, sem divisão visual. */
   body {
-    background: radial-gradient(ellipse at 50% 30%, #3a1418 0%, #1A0A09 80%);
+    background:
+      radial-gradient(ellipse at 50% 18%, var(--c-vinho-mid) 0%, var(--c-vinho-deep) 70%, var(--c-vinho-soft) 100%);
   }
   .page {
-    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
+    background: transparent;
+    box-shadow: none;
+  }
+  .page::before {
+    background: none;
   }
 }
 
