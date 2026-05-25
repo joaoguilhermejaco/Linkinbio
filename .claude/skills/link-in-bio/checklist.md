@@ -56,9 +56,46 @@ Rode mentalmente cada bloco antes de declarar "pronto". Se algum falhar, consert
 - [ ] Recomendação no rodapé descreve quando escolher cada caminho, não força um
 - [ ] `compare-table` é justa — se a direção 03 é mais cara, mostra ~6 dias e não esconde
 
-## Final
+## Final (Fase 1)
 - [ ] Abra mentalmente em iPhone 13 — passa no "primeiro segundo"? a cliente entende o que é?
 - [ ] Se a cliente perguntar "por que essas 3?" — você tem resposta justificada nas notas de curadoria
 - [ ] Commit message: `link-in-bio: <nome-cliente> v1` (ou `v2`, `v3` em iterações)
 - [ ] Push no branch designado
 - [ ] NÃO abre PR a menos que pedido
+
+---
+
+## Fase 2 — Port pro Next.js *(quando cliente aprovar uma direção)*
+
+Detalhes em `nextjs-conversion.md`. Checklist crítico:
+
+- [ ] Brand kit do cliente em `clients/<slug>/assets-brand-kit/brand-kit/`
+- [ ] Lockup oficial copiado pra `public/logo-lockup.png` (confirmar texto canônico antes — Assessoria vs Consultoria etc)
+- [ ] Fontes oficiais via `next/font/google` (NÃO chutar — ler manual)
+- [ ] Tokens CSS oficiais do brand kit mapeados (não inventar cores)
+- [ ] Copy oficial destilado do texto institucional do cliente (NÃO inventar frases poéticas)
+- [ ] Animações em CSS puro (sobrevivem ao hydration)
+- [ ] Drawer com useState + Esc fecha + body overflow lock
+- [ ] Responsivo desktop sem "card flutuando" (body herda mesmo gradient do .page)
+- [ ] Safe areas: `html { background }` + `themeColor` no viewport
+- [ ] `prefers-reduced-motion` zera animações
+- [ ] `npx tsc --noEmit` → No errors
+- [ ] `npm run build` passa local
+- [ ] Removidos do Next: switcher de paletas, compare table, recommendation, grid 3-up, botão Reproduzir, topbar de apresentação
+
+## Fase 3 — Deploy Vercel *(quando Fase 2 estiver verde)*
+
+Detalhes em `deploy-vercel.md`. Checklist crítico:
+
+- [ ] `vercel.json` da raiz do monorepo deletado se existir (atrapalha)
+- [ ] Projeto Vercel criado via **dashboard** (não CLI — CLI não conecta Git automático)
+- [ ] Root Directory: `clients/<slug>` (sem barra)
+- [ ] "Include files outside root directory": **OFF**
+- [ ] **"Skip deployments when no changes to root directory": ON** ← crítico pra monorepo
+- [ ] Node.js Version: 22.x (LTS)
+- [ ] Framework: Next.js (auto-detect)
+- [ ] Push pra main dispara build automático
+- [ ] Status "Ready" no deployment
+- [ ] URL pública abre, animação roda, drawer funciona
+- [ ] Atualiza memória do projeto (`project-<slug>-entrega`) e STATUS.md do vault
+- [ ] Manda URL pra cliente validar

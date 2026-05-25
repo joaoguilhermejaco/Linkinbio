@@ -18,9 +18,17 @@ Esta skill produz, a partir de um briefing de cliente, uma **apresentação HTML
 7. **Animações coreografadas** com delays escalonados (rise 0.8s @ 3.7s, @ 3.95s, @ 4.2s…). Não tudo entrando junto.
 8. **Sempre incluir botão "Reproduzir"** sob cada iPhone — a cliente vai querer ver de novo.
 
+## As 3 fases da entrega
+
+| Fase | O que entrega | Doc |
+|---|---|---|
+| **1 · Mockup** | Apresentação HTML standalone em `atelie/<slug>/index.html` com 3 direções, palette switcher, comparativo e recomendação. Cliente escolhe uma. | Este SKILL.md (seções abaixo) + `references/dra-bianca.md` |
+| **2 · Port pro Next** | Projeto Next.js em `clients/<slug>/` com a direção aprovada, copy oficial do cliente, brand kit aplicado, responsivo. | `nextjs-conversion.md` |
+| **3 · Deploy** | Projeto Vercel próprio (monorepo, 1 projeto por cliente, "Skip deployments when no changes" ligado), URL pública. | `deploy-vercel.md` |
+
 ## Pensando em Next.js já na fase 1
 
-A direção aprovada vira um projeto Next.js depois (ver `nextjs-conversion.md` quando existir). Algumas escolhas no HTML hoje custam caro lá; siga estas regras para a conversão ser barata:
+A direção aprovada vira um projeto Next.js depois (ver `nextjs-conversion.md`). Algumas escolhas no HTML hoje custam caro lá; siga estas regras para a conversão ser barata:
 
 1. **Animações em CSS puro, não em JS.** Use `@keyframes` + `animation-delay`, não `setTimeout`/`requestAnimationFrame`. Sobrevive ao hidration do React sem reescrita.
 2. **Replay via "remount", não DOM manipulation.** No HTML use o padrão `cloneNode + replaceChild` que já existe — em React vira `key={replayCount}` num componente, troca trivial.
@@ -29,6 +37,15 @@ A direção aprovada vira um projeto Next.js depois (ver `nextjs-conversion.md` 
 5. **Nada de `<img src="https://...">` externo.** Use `assets/` relativa. Vira `next/image` com `import logo from '@/assets/logo.png'`.
 6. **Texto sempre como texto** (não dentro de SVG, não como background-image). Necessário para SEO e i18n no Next.js.
 7. **Estrutura semântica:** `<header>`, `<section>`, `<footer>`, `<h1>` único. Next.js Metadata API depende disso.
+
+## Brand kit antes do mockup
+
+Quando o cliente já tem brand kit (manual de marca), **leia o manual antes de escolher paleta/fontes**. Não chutar:
+- **Fontes oficiais** vão no `<link>` Google Fonts (fase 1) e no `next/font` (fase 2). Não confundir lockup PNG com manual — o lockup pode estar desatualizado.
+- **Paleta oficial** mapeia direto nos tokens `--scene-*` do schema da skill.
+- **Elementos de apoio** (ícones, ornamentos, monogramas alternativos) podem virar variantes de cena.
+
+Se houver divergência entre o lockup PNG e o manual institucional (caso real Lívia: lockup PNG dizia "Assessoria", manual já dizia "Consultoria"), **perguntar ao cliente qual é o canônico antes de aplicar**.
 
 ## Passo a passo (executar nesta ordem)
 
@@ -67,8 +84,14 @@ Mantenha:
 ### 4. Qualidade
 Rode mentalmente `checklist.md`. Antes de declarar pronto, confirme cada item.
 
-### 5. Entrega
+### 5. Entrega da Fase 1
 Faça commit no branch atual com mensagem `link-in-bio: <nome-cliente> v1`. Não abra PR a menos que o usuário peça.
+
+### 6. Fase 2 (quando cliente aprovar a direção)
+Seguir `nextjs-conversion.md` — port da cena aprovada pro Next.js em `clients/<slug>/`. Aplicar copy oficial validado e brand kit real.
+
+### 7. Fase 3 (quando Fase 2 estiver verde no `npm run build`)
+Seguir `deploy-vercel.md` — criar projeto Vercel via dashboard, configurar Root Directory `clients/<slug>` + "Skip deployments when no changes", push pra main dispara deploy automático.
 
 ## Quando fugir do padrão
 
