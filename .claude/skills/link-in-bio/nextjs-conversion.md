@@ -132,6 +132,67 @@ export const viewport: Viewport = {
 
 Sem isso, status bar fica preta no iOS.
 
+## OG image (preview ao compartilhar no WhatsApp/Slack/Twitter)
+
+Link-in-bio sem OG image fica feio quando o cliente compartilha (sem foto, só URL nua). Solução: criar `app/opengraph-image.tsx` que o Next renderiza como PNG estático no build.
+
+```tsx
+// app/opengraph-image.tsx
+import { ImageResponse } from 'next/og';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
+
+export const alt = '<Nome do cliente> · <especialidade>';
+export const size = { width: 1200, height: 630 }; // padrão OG
+export const contentType = 'image/png';
+
+export default async function Image() {
+  const logoBuffer = await readFile(join(process.cwd(), 'public/logo-lockup.png'));
+  const logoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+
+  return new ImageResponse(
+    (
+      <div style={{
+        width: '100%', height: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'radial-gradient(ellipse at 50% 18%, <vinho-mid> 0%, <vinho-deep> 70%, <vinho-soft> 100%)',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%)',
+        }} />
+        <img src={logoBase64} alt="" width={720} height={480} style={{ objectFit: 'contain' }} />
+      </div>
+    ),
+    { ...size },
+  );
+}
+```
+
+**Obrigatório:** adicionar `metadataBase` no `metadata` do `layout.tsx`, senão Next usa `localhost:3000` em produção:
+```tsx
+export const metadata: Metadata = {
+  metadataBase: new URL('https://<slug>-<team>.vercel.app'),
+  // ...resto
+};
+```
+
+**Detalhes técnicos do `next/og`:**
+- Roda em edge runtime durante build — limites apertados (no `setTimeout`, no node:* APIs além de fs/path)
+- Lê o logo via `readFile` no build, embute como base64. Funciona offline, sem fetch externo
+- **Não suporta** `z-index`. Renderiza na ordem do DOM: vinheta primeiro (atrás), lockup depois (na frente)
+- **Não suporta** `backdrop-filter`, `transform-style: preserve-3d`, fontes via CSS (precisa carregar via `fetch` + `fonts` option se quiser texto custom)
+- Pra texto, usar `<div>` com style inline, não `<p>` ou `<h1>` (compat melhor)
+
+**Cache busting (importante!):** WhatsApp/Facebook/Twitter cacheiam OG image pesado. Se cliente já compartilhou antes da OG existir, o cache fica feio por dias. Forçar refresh:
+- Facebook/WhatsApp: https://developers.facebook.com/tools/debug/ → "Scrape Again"
+- Twitter: https://cards-dev.twitter.com/validator
+- LinkedIn: https://www.linkedin.com/post-inspector/
+
+Avisar o cliente: "Se você já compartilhou o link antes de eu mandar essa versão, roda o Facebook Debugger pra atualizar."
+
+**Testar localmente:** `curl http://localhost:3000/opengraph-image -o preview.png && open preview.png`
+
 ## O que NÃO levar do mockup atelie pro Next
 
 - Switcher de 4 paletas (era ferramenta de venda)
@@ -167,8 +228,9 @@ Sem isso, status bar fica preta no iOS.
 ## Validação antes de deploy
 
 - [ ] `npx tsc --noEmit` → No errors
-- [ ] `npm run build` localmente passa sem erro
+- [ ] `npm run build` localmente passa sem erro (sem warnings de `metadataBase`)
 - [ ] Página renderiza em `localhost:3000` (`npm run dev`)
+- [ ] **OG image renderiza**: `curl http://localhost:3000/opengraph-image -o /tmp/og.png && open /tmp/og.png` mostra lockup centralizado em fundo vinho
 - [ ] Drawer abre/fecha/Esc fecha/scrim fecha
 - [ ] Animação roda corretamente do zero (hard refresh Cmd+Shift+R)
 - [ ] Mobile no DevTools (iPhone 13) — primeiro segundo já mostra o lockup

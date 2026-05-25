@@ -78,9 +78,10 @@ Detalhes em `nextjs-conversion.md`. Checklist crítico:
 - [ ] Drawer com useState + Esc fecha + body overflow lock
 - [ ] Responsivo desktop sem "card flutuando" (body herda mesmo gradient do .page)
 - [ ] Safe areas: `html { background }` + `themeColor` no viewport
+- [ ] **OG image dinâmica**: `app/opengraph-image.tsx` com lockup em fundo vinho + `metadataBase` no layout
 - [ ] `prefers-reduced-motion` zera animações
 - [ ] `npx tsc --noEmit` → No errors
-- [ ] `npm run build` passa local
+- [ ] `npm run build` passa local (sem warning de metadataBase)
 - [ ] Removidos do Next: switcher de paletas, compare table, recommendation, grid 3-up, botão Reproduzir, topbar de apresentação
 
 ## Fase 3 — Deploy Vercel *(quando Fase 2 estiver verde)*
@@ -97,5 +98,7 @@ Detalhes em `deploy-vercel.md`. Checklist crítico:
 - [ ] Push pra main dispara build automático
 - [ ] Status "Ready" no deployment
 - [ ] URL pública abre, animação roda, drawer funciona
+- [ ] **OG image válida em produção**: testa cola URL em https://developers.facebook.com/tools/debug/ → deve mostrar lockup em fundo vinho
 - [ ] Atualiza memória do projeto (`project-<slug>-entrega`) e STATUS.md do vault
 - [ ] Manda URL pra cliente validar
+- [ ] Avisa cliente sobre cache de OG image em redes sociais (se já compartilhou antes, rodar Facebook Debugger)
