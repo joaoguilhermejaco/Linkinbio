@@ -79,6 +79,7 @@ Detalhes em `nextjs-conversion.md`. Checklist crítico:
 - [ ] Responsivo desktop sem "card flutuando" (body herda mesmo gradient do .page)
 - [ ] Safe areas: `html { background }` + `themeColor` no viewport
 - [ ] **OG image dinâmica**: `app/opengraph-image.tsx` com lockup em fundo vinho + `metadataBase` no layout
+- [ ] **WhatsApp com mensagem pré-preenchida** via `?text=encodeURIComponent(msg)` (não link cru `wa.me/numero`)
 - [ ] `prefers-reduced-motion` zera animações
 - [ ] `npx tsc --noEmit` → No errors
 - [ ] `npm run build` passa local (sem warning de metadataBase)

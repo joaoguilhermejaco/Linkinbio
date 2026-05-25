@@ -3,7 +3,8 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const WHATSAPP = 'https://wa.me/5588988438114';
+const WHATSAPP_MSG = 'Olá, Lívia! Vim pelo Instagram e gostaria de conversar sobre um assunto jurídico.';
+const WHATSAPP = `https://wa.me/5588988438114?text=${encodeURIComponent(WHATSAPP_MSG)}`;
 const MAPS =
   'https://www.google.com/maps/search/?api=1&query=Rua+Vereador+Raimundo+Te%C3%B3filo+Freire%2C+770%2C+S%C3%A3o+Vicente%2C+Tabuleiro+do+Norte+-+CE';
 const EMAIL = 'mailto:lholandaadvocacia@gmail.com';

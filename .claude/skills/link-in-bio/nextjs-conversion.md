@@ -225,6 +225,26 @@ Avisar o cliente: "Se você já compartilhou o link antes de eu mandar essa vers
 
 6. **Drawer em `position: fixed` quebra dentro de iframe.** No mockup do atelie eu usei `position: absolute` dentro do iPhone screen. No Next vira `position: fixed` (tela cheia).
 
+## WhatsApp com mensagem pré-preenchida
+
+Link cru `wa.me/<numero>` abre conversa em branco. Pra cliente receber direto com contexto ("vim pelo Instagram", "quero saber sobre X"), usar `?text=`:
+
+```tsx
+const WHATSAPP_MSG = 'Olá, <Nome>! Vim pelo Instagram e gostaria de conversar sobre <assunto>.';
+const WHATSAPP = `https://wa.me/<numero>?text=${encodeURIComponent(WHATSAPP_MSG)}`;
+```
+
+Boas práticas:
+- Sempre em **primeira pessoa do cliente final** ("eu, visitante, quero…"), não da Lívia
+- Mencionar **fonte** ("vim pelo Instagram", "vim pelo seu site") — ajuda cliente saber de onde veio
+- Frase curta — usuário deve poder mandar sem editar
+- Se houver múltiplos CTAs do mesmo WhatsApp (botão home + CTA drawer), **usar a mesma URL**
+
+No mockup HTML (sem React), pré-codifica com `encodeURIComponent` manual e cola o resultado:
+```html
+<a href="https://wa.me/<numero>?text=Ol%C3%A1%2C%20...">...</a>
+```
+
 ## Validação antes de deploy
 
 - [ ] `npx tsc --noEmit` → No errors
