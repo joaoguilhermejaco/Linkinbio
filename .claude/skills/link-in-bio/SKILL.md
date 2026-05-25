@@ -47,7 +47,9 @@ A partir do brief:
 Apresente essa curadoria ao usuário em ~120 palavras e peça aprovação antes de gerar HTML. Se ele aprovar, siga; se ele questionar, ajuste.
 
 ### 3. Geração
-Gere `index.html` na raiz do repo (ou em `clients/<slug>/index.html` se o usuário pediu organizar por cliente). Use `references/dra-bianca.md` como guia estrutural: mesmas seções (topbar → hero → directions grid → compare → recommendation → palette switcher → footer), mesmas convenções de classe (`.iphone`, `.scene-b`, `.scene-c`, `.scene-v`, `.phone-controls`, `.palette-bar`).
+Gere o mockup em **`atelie/<slug>/index.html`** (convenção do monorepo: leads/mockups vivem em `atelie/`, clientes que fecharam viram projeto Next.js em `clients/<slug>/`). Use `references/dra-bianca.md` como guia estrutural: mesmas seções (topbar → hero → directions grid → compare → recommendation → palette switcher → footer), mesmas convenções de classe (`.iphone`, `.scene-b`, `.scene-c`, `.scene-v`, `.phone-controls`, `.palette-bar`).
+
+Assets do cliente (logo, fotos) vão em `atelie/<slug>/assets/`.
 
 Substitua:
 - Nome do cliente, especialidade, data

@@ -1,0 +1,40 @@
+# ByteRover - Padrões de Exclusão de Memória Semântica
+
+# Dependências e Builds
+node_modules/
+.next/
+dist/
+build/
+out/
+bin/
+obj/
+*.pyc
+
+# Configurações do Sistema e IDEs
+.git/
+.DS_Store
+.idea/
+.vscode/
+
+# Configurações Internas de Vetores e Obsidian
+.smart-env/
+.obsidian/
+.brv/
+
+# Arquivos de Bloqueio de Pacotes
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# Mídia e Arquivos Pesados
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.mp4
+*.zip
+*.tar.gz
+*.pdf

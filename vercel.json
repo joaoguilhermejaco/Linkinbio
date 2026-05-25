@@ -1,8 +1,0 @@
-{
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/livia", "destination": "/clients/livia-holanda/index.html" },
-    { "source": "/bianca", "destination": "/index.html" }
-  ]
-}
