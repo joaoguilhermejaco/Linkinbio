@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
-export const alt = 'Lívia Holanda · Advocacia e Assessoria Jurídica';
+export const alt = 'Lívia Holanda · Advocacia e Consultoria Jurídica';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
