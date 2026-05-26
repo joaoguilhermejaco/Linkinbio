@@ -80,8 +80,8 @@ export default function LinkInBio() {
           className="lockup"
           src="/logo-lockup.png"
           alt="Lívia Holanda · Advocacia e Consultoria Jurídica"
-          width={1024}
-          height={683}
+          width={1536}
+          height={1024}
           priority
         />
 
